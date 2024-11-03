@@ -5,6 +5,7 @@ import UsersManagementTItle from "../components/users/UsersManagementTItle";
 import UsersTable from "../components/users/UsersTable";
 import { validateFields } from "../helpers/validations";
 import Modal from "../components/modal/Modal";
+import { getActionLabel } from "../helpers/getActionLabel";
 
 const Dashboard = () => {
   const [users, setUsers] = useState([
@@ -122,15 +123,7 @@ const Dashboard = () => {
         onClose={handleCloseModal}
         onAction={handleAddUser}
         isLoading={isLoading}
-        actionLabel={
-          isLoading
-            ? editingUser
-              ? "Updating..."
-              : "Creating..."
-            : editingUser
-              ? "Update User"
-              : "Create User"
-        }
+        actionLabel={getActionLabel(isLoading,editingUser)}
       >
         <UsersForm
           newUser={newUser}
