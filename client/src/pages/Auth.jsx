@@ -4,7 +4,7 @@ import AuthForm from "../components/auth/AuthForm";
 
 const Auth = () => {
   const [data, setData] = useState({ email: "", password: "" });
-
+    const [authState,setAuthState]= useState("login")
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -30,16 +30,20 @@ const Auth = () => {
     }
   };
 
+  const isInLogIn = authState === "login"
+  const toggleAuthMode = () => setAuthState(isInLogIn ? "register" : "login")
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
+        <h1 className="text-2xl font-bold text-center mb-6">{isInLogIn ? "Login" : "Register"}</h1>
         <AuthForm
           email={data.email}
           password={data.password}
           loading={loading}
           handleChange={handleChange}
           handleClick={handleLogin}
+          isInLogIn={isInLogIn}
+          toggleAuthMode={toggleAuthMode}
         />
       </div>
     </div>

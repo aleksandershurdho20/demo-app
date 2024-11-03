@@ -6,6 +6,8 @@ export default function AuthForm({
   loading,
   handleChange,
   handleClick,
+  isInLogIn,
+  toggleAuthMode,
 }) {
   return (
     <form onSubmit={handleClick} className="space-y-4">
@@ -26,6 +28,19 @@ export default function AuthForm({
           onChange={handleChange}
           required
         />
+        <div className="text-center mt-4">
+          <p className="text-gray-600">
+            {" "}
+            {isInLogIn ? "Don't have an account?" : "Already have a account "}
+          </p>
+          <button
+            type="button"
+            className="text-blue-500 hover:underline focus:outline-none"
+            onClick={toggleAuthMode}
+          >
+            {isInLogIn ? "Sign up" : "Log in"}
+          </button>
+        </div>
       </div>
       <button
         type="submit"
@@ -34,7 +49,7 @@ export default function AuthForm({
         }`}
         disabled={loading}
       >
-        {loading ? "Logging in..." : "Login"}
+        {isInLogIn ? "Log in" : "Sign up"}
       </button>
     </form>
   );
