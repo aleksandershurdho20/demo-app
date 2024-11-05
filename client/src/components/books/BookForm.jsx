@@ -24,41 +24,41 @@ export default function BookForm({book,handleInputChange,errors}) {
     </div>
 
     <div className="space-y-2">
-      <label htmlFor="isbn" className="block text-sm font-medium text-gray-700 text-left">
-        ISBN
+      <label htmlFor="author" className="block text-sm font-medium text-gray-700 text-left">
+        Author
       </label>
       <input
         type="text"
-        id="isbn"
-        name="isbn"
-        value={book.isbn}
+        id="author"
+        name="author"
+        value={book.author}
         onChange={handleInputChange}
         className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${
-          errors.isbn ? 'border-red-500' : 'border-gray-300'
+          errors.author ? 'border-red-500' : 'border-gray-300'
         }`}
-        placeholder="Enter ISBN"
+        placeholder="Enter Author"
       />
-      {errors.isb && (
-        <p className="text-red-500 text-sm mt-1">{errors.isb}</p>
+      {errors.author && (
+        <p className="text-red-500 text-sm mt-1">{errors.author}</p>
       )}
     </div>
 
     <div className="space-y-2">
-      <label htmlFor="description" className="block text-sm font-medium text-gray-700 text-left">
-        Description
+      <label htmlFor="genre" className="block text-sm font-medium text-gray-700 text-left">
+        Genre
       </label>
       <textarea
-        id="description"
-        name="description"
-        value={book.description}
+        id="genre"
+        name="genre"
+        value={book.genre}
         onChange={handleInputChange}
         className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${
-          errors.description ? 'border-red-500' : 'border-gray-300'
+          errors.genre ? 'border-red-500' : 'border-gray-300'
         }`}
-        placeholder="Enter Description"
+        placeholder="Enter Genre"
       />
-      {errors.description && (
-        <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+      {errors.genre && (
+        <p className="text-red-500 text-sm mt-1">{errors.genre}</p>
       )}
     </div>
   </div>

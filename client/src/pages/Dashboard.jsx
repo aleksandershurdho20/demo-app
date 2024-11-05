@@ -6,11 +6,12 @@ import { getActionLabel } from "../helpers/getActionLabel";
 import BookForm from "../components/books/BookForm";
 import BookManagementTitle from "../components/books/BookManagementTitle";
 import BooksTable from "../components/books/BooksTable";
+import AuthHeader from "../components/auth/AuthHeader";
 
 const Dashboard = () => {
   const [books, setBooks] = useState([
-    { id: 1, title: "John Doe", description: "john@example.com", isbn: "Admin" },
-    { id: 2, title: "Jane Smith", description: "jane@example.com", isbn: "User" },
+    { id: 1, title: "John Doe", author: "john@example.com", genre: "Admin" },
+    { id: 2, title: "Jane Smith", author: "jane@example.com", genre: "User" },
   ]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,12 +20,12 @@ const Dashboard = () => {
   const [errors, setErrors] = useState({});
   const [book, setBook] = useState({
     title: "",
-    description: "",
-    isbn: "",
+    author: "",
+    genre: "",
   });
 
   const resetForm = () => {
-    setBook({ title: "", description: "", isbn: "" });
+    setBook({ title: "", author: "", genre: "" });
     setEditingUser(null);
     setErrors({});
   };
@@ -84,8 +85,8 @@ const Dashboard = () => {
     setEditingUser(book);
     setBook({
       title: book.title,
-      description: book.description,
-      isbn: book.isbn,
+      author: book.author,
+      genre: book.genre,
     });
     setIsModalOpen(true);
   };
@@ -106,6 +107,7 @@ const Dashboard = () => {
   };
   return (
     <div className="p-8">
+      <AuthHeader/>
       <BookManagementTitle isLoading={isLoading} onClick={handleAddbook} />
 
       <div className="border rounded-lg overflow-hidden">
