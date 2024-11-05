@@ -1,30 +1,30 @@
 import { Loader2, X } from "lucide-react";
 import React, { useState } from "react";
-import UsersForm from "../components/users/UsersForm";
-import UsersManagementTItle from "../components/users/UsersManagementTItle";
-import UsersTable from "../components/users/UsersTable";
 import { validateFields } from "../helpers/validations";
 import Modal from "../components/modal/Modal";
 import { getActionLabel } from "../helpers/getActionLabel";
+import BookForm from "../components/books/BookForm";
+import BookManagementTitle from "../components/books/BookManagementTitle";
+import BooksTable from "../components/books/BooksTable";
 
 const Dashboard = () => {
-  const [users, setUsers] = useState([
-    { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
-    { id: 2, name: "Jane Smith", email: "jane@example.com", role: "User" },
+  const [books, setBooks] = useState([
+    { id: 1, title: "John Doe", description: "john@example.com", isbn: "Admin" },
+    { id: 2, title: "Jane Smith", description: "jane@example.com", isbn: "User" },
   ]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [errors, setErrors] = useState({});
-  const [newUser, setNewUser] = useState({
-    name: "",
-    email: "",
-    role: "",
+  const [book, setBook] = useState({
+    title: "",
+    description: "",
+    isbn: "",
   });
 
   const resetForm = () => {
-    setNewUser({ name: "", email: "", role: "" });
+    setBook({ name: "", email: "", role: "" });
     setEditingUser(null);
     setErrors({});
   };
@@ -35,7 +35,7 @@ const Dashboard = () => {
   };
 
   const validateForm = () => {
-    const newErrors = validateFields(newUser);
+    const newErrors = validateFields(book);
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewUser((prev) => ({
+    setBook((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -60,17 +60,17 @@ const Dashboard = () => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       if (editingUser) {
-        setUsers((prev) =>
+        setBooks((prev) =>
           prev.map((user) =>
-            user.id === editingUser.id ? { ...newUser, id: user.id } : user,
+            user.id === editingUser.id ? { ...book, id: user.id } : user,
           ),
         );
       } else {
-        setUsers((prev) => [
+        setBooks((prev) => [
           ...prev,
           {
             id: prev.length + 1,
-            ...newUser,
+            ...book,
           },
         ]);
       }
@@ -80,53 +80,53 @@ const Dashboard = () => {
     }
   };
 
-  const handleEditUser = (user) => {
-    setEditingUser(user);
-    setNewUser({
-      name: user.name,
-      email: user.email,
-      role: user.role,
+  const handleEditBook = (book) => {
+    setEditingUser(book);
+    setBook({
+      title: book.title,
+      description: book.description,
+      isbn: book.isbn,
     });
     setIsModalOpen(true);
   };
 
-  const handleDeleteUser = async (userId) => {
+  const handleDeleteBook = async (userId) => {
     setIsLoading(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      setUsers((prev) => prev.filter((user) => user.id !== userId));
+      setBooks((prev) => prev.filter((user) => user.id !== userId));
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleAddNewUser = () => {
+  const handleAddbook = () => {
     resetForm();
     setIsModalOpen(true);
   };
   return (
     <div className="p-8">
-      <UsersManagementTItle isLoading={isLoading} onClick={handleAddNewUser} />
+      <BookManagementTitle isLoading={isLoading} onClick={handleAddbook} />
 
       <div className="border rounded-lg overflow-hidden">
-        <UsersTable
-          users={users}
-          handleEditUser={handleEditUser}
-          handleDeleteUser={handleDeleteUser}
+        <BooksTable
+          books={books}
+          handleEditBook={handleEditBook}
+          handleDeleteBook={handleDeleteBook}
           isLoading={isLoading}
         />
       </div>
 
       <Modal
         isOpen={isModalOpen}
-        title={editingUser ? "Edit User" : "Add New User"}
+        title={editingUser ? "Edit book" : "Add New book"}
         onClose={handleCloseModal}
         onAction={handleAddUser}
         isLoading={isLoading}
         actionLabel={getActionLabel(isLoading,editingUser)}
       >
-        <UsersForm
-          newUser={newUser}
+        <BookForm
+          book={book}
           errors={errors}
           handleInputChange={handleInputChange}
         />

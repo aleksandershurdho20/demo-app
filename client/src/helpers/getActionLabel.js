@@ -3,5 +3,5 @@ export const getActionLabel = (isLoading,editingUser) =>  isLoading
   ? "Updating..."
   : "Creating..."
 : editingUser
-  ? "Update User"
-  : "Create User"
+  ? "Update Book"
+  : "Create Book"

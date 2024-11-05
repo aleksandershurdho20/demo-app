@@ -1,9 +1,8 @@
-export const validateFields = (newUser) => {
+export const validateFields = (book) => {
     const newErrors = {};
 
-    if (!newUser.name.trim()) newErrors.name = 'Name is required';
-    if (!newUser.email.trim()) newErrors.email = 'Email is required';
-    if (!newUser.email.includes('@')) newErrors.email = 'Invalid email format';
-    if (!newUser.role.trim()) newErrors.role = 'Role is required';
+    if (!book.title.trim()) newErrors.title = 'Title is required';
+    if (!book.isbn.trim()) newErrors.isbn = 'Isbn is required';
+    if (!book.description.trim()) newErrors.description = 'Description is required';
     return newErrors
 }
