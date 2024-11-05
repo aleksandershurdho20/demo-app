@@ -4,21 +4,21 @@ export default function BookForm({book,handleInputChange,errors}) {
   return (
     <div className="flex-1 p-6 space-y-6">
     <div className="space-y-2">
-      <label htmlFor="name" className="block text-sm font-medium text-gray-700 text-left">
+      <label htmlFor="title" className="block text-sm font-medium text-gray-700 text-left">
         Title
       </label>
       <input
         type="text"
-        id="name"
+        id="title"
         name="title"
         value={book.title}
         onChange={handleInputChange}
         className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 ${
-          errors.name ? 'border-red-500' : 'border-gray-300'
+          errors.title ? 'border-red-500' : 'border-gray-300'
         }`}
         placeholder="Enter title"
       />
-      {errors.name && (
+      {errors.title && (
         <p className="text-red-500 text-sm mt-1">{errors.title}</p>
       )}
     </div>

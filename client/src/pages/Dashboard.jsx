@@ -24,7 +24,7 @@ const Dashboard = () => {
   });
 
   const resetForm = () => {
-    setBook({ name: "", email: "", role: "" });
+    setBook({ title: "", description: "", isbn: "" });
     setEditingUser(null);
     setErrors({});
   };
@@ -36,7 +36,7 @@ const Dashboard = () => {
 
   const validateForm = () => {
     const newErrors = validateFields(book);
-
+    console.log(newErrors,book)
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
