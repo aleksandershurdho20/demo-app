@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthForm from "../components/auth/AuthForm";
+import { apiInstance } from "../utils/api";
+import toast from 'react-hot-toast';
 
 const Auth = () => {
   const [data, setData] = useState({ email: "", password: "" });
@@ -16,21 +18,34 @@ const Auth = () => {
       [name]: value,
     });
   };
+  const isInLogIn = authState === "login"
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
-      navigate("/dashboard");
+      await apiInstance.post(isInLogIn ? "/login" : "register",data);
+      if(isInLogIn){
+        navigate("/dashboard");
+
+      }
+      else{
+        toast.success("Registered succesfully!")
+        setAuthState("login")
+        setData({
+          email:"",
+          password:""
+        })
+      }
     } catch (err) {
-      setError(err.message);
+      console.log(err.response.data)
+      toast.error(err.response.data);
     } finally {
       setLoading(false);
     }
   };
 
-  const isInLogIn = authState === "login"
   const toggleAuthMode = () => setAuthState(isInLogIn ? "register" : "login")
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
