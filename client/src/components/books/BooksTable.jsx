@@ -12,9 +12,9 @@ export default function BooksTable({
     <table className="min-w-full divide-y divide-gray-200">
       <thead className="bg-gray-50">
         <tr>
-          {columns.map((column) => (
+          {columns.map((column,index) => (
             <th
-              key={column.title}
+              key={index}
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               {column.title}
@@ -24,9 +24,9 @@ export default function BooksTable({
       </thead>
       <tbody className="bg-white divide-y divide-gray-200">
         {books.map((book) => (
-          <tr key={book.id} className="hover:bg-gray-50">
+          <tr key={book._id} className="hover:bg-gray-50">
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {book.id}
+              {book._id}
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="flex items-center">
@@ -40,7 +40,7 @@ export default function BooksTable({
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {book.genre}
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <td className="px-6 py-4 whitespace-nowrap  text-sm font-medium">
               <button
                 onClick={() => handleEditBook(book)}
                 className="text-blue-600 hover:text-blue-900 mr-4"
@@ -49,7 +49,7 @@ export default function BooksTable({
                 <Pencil className="h-4 w-4" />
               </button>
               <button
-                onClick={() => handleDeleteBook(book.id)}
+                onClick={() => handleDeleteBook(book._id)}
                 className="text-red-600 hover:text-red-900"
                 disabled={isLoading}
               >

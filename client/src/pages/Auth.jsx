@@ -25,10 +25,10 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      await apiInstance.post(isInLogIn ? "/login" : "register",data);
+      const res = await apiInstance.post(isInLogIn ? "/login" : "register",data);
       if(isInLogIn){
         navigate("/dashboard");
-
+        localStorage.setItem("user",JSON.stringify(res.data))
       }
       else{
         toast.success("Registered succesfully!")
@@ -39,8 +39,8 @@ const Auth = () => {
         })
       }
     } catch (err) {
-      console.log(err.response.data)
-      toast.error(err.response.data);
+      console.log(err)
+      toast.error(err?.response?.data);
     } finally {
       setLoading(false);
     }
