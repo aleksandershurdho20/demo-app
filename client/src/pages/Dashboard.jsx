@@ -10,6 +10,13 @@ import { useBookForm } from "../hooks/useBookForm";
 import { Navigate } from "react-router-dom";
 
 const Dashboard = () => {
+
+  const isAuthenticated = JSON.parse(localStorage.getItem("user"))
+  console.log(isAuthenticated,"isauth")
+
+  if(!isAuthenticated){
+    return <Navigate to="/" replace/>
+  }
   const { books, isLoading, handleAddBook, handleDeleteBook } = useBooks();
   const { book, errors, handleInputChange, resetForm, validateForm, setBook } =
     useBookForm();
@@ -39,12 +46,7 @@ const Dashboard = () => {
     handleCloseModal();
   };
 
-  const isAuthenticated = JSON.parse(localStorage.getItem("user"))
-  console.log(isAuthenticated,"isauth")
-
-  if(!isAuthenticated){
-    return <Navigate to="/" replace/>
-  }
+  
   return (
     <div className="p-8">
       <AuthHeader />
