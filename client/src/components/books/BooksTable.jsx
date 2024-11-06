@@ -1,4 +1,4 @@
-import { Pencil, Trash2, User } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import React from "react";
 import { columns } from "../../constants/table";
 
@@ -30,7 +30,6 @@ export default function BooksTable({
             </td>
             <td className="px-6 py-4 whitespace-nowrap">
               <div className="flex items-center">
-                <User className="h-4 w-4 text-gray-400 mr-2" />
                 <span className="text-sm text-gray-900">{book.title}</span>
               </div>
             </td>
