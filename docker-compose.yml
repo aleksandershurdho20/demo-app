@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .  
+      dockerfile: client/Dockerfile 
+    ports:
+      - "5174:5174"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./server  
+      dockerfile: Dockerfile  
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE=mongodb://mongo:27017/library
+      - JWT_SECRET=JFDLKLJKGLJKDFGJLKFDGJLKFDJG094854
+      - PORT=8000
+    depends_on:
+      - mongo
+    env_file:
+      - ./server/.env
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27018:27018"
+   
+volumes:
+  mongo-data:
