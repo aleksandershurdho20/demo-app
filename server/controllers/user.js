@@ -2,6 +2,8 @@ const User = require("../models/user")
 
 const { hashPassword, comparePassword } = require('../utils/auth')
 const jwt = require('jsonwebtoken')
+const { processImage } = require("../utils/faceAuth")
+
 const register = async (req, res) => {
     const {  email, password, role ,username} = req.body;
 
@@ -73,9 +75,60 @@ const login = async (req, res) => {
       res.status(500).send("Server error, couldn't get user");
     }
   };
+
+  const regiserWithFace = async(req,res) =>{
+    try {
+     
+      
+      if (!req.file) {
+          return res.status(400).json({ error: 'Image file is required' });
+      }
+
+      const faceDescriptor = await processImage(req.file.buffer);
+      
+      const user = await new User({
+          faceDescriptor,
+      }).save();
+      
+
+      res.json(user);
+  } catch (error) {
+      res.status(400).json({ error: error.message });
+  }
+  }
   
+  const loginWithFace = async(req,res) => {
+    try {
+      if (!req.file) {
+          return res.status(400).json({ error: 'Image file is required' });
+      }
+
+      const faceDescriptor = await processImage(req.file.buffer);
+      
+      const user = await User.findOne({
+          faceDescriptor: { $near: { $maxDistance: 0.6, $geometry: { type: "Point", coordinates: faceDescriptor } } }
+      });
+      
+      if (user) {
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+          expiresIn: "7d",
+        });
+    
+        res.status(200).json({ ...user._doc, token });
+      } else {
+          res.json({
+              authenticated: false,
+              message: 'Face not recognized'
+          });
+      }
+  } catch (error) {
+      res.status(400).json({ error: error.message });
+  }
+  }
 module.exports = {
     register,
     login,
-    getLoggedInUser
+    getLoggedInUser,
+    regiserWithFace,
+    loginWithFace
 }

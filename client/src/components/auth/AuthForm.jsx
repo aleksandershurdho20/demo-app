@@ -1,5 +1,6 @@
-import React from "react";
+import React,{useState} from "react";
 import Input from "../input/Input";
+import FacialAuth from "./FacialAuth";
 export default function AuthForm({
   email,
   password,
@@ -8,9 +9,13 @@ export default function AuthForm({
   handleClick,
   isInLogIn,
   toggleAuthMode,
+  biometricAuth,
+  handleBiometricAuth
 }) {
+
   return (
-    <form onSubmit={handleClick} className="space-y-4">
+   <>
+   {biometricAuth ? <FacialAuth handleBiometricAuth={handleBiometricAuth}/> :  <form onSubmit={handleClick} className="space-y-4">
       <div>
         <Input
           type="email"
@@ -51,6 +56,14 @@ export default function AuthForm({
       >
         {isInLogIn ? "Log in" : "Sign up"}
       </button>
-    </form>
+      <button
+        type="submit"
+        className={`w-full bg-blue-100 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 `}
+      onClick={handleBiometricAuth}
+      >
+        Continue with face authentication
+      </button>
+    </form>}
+   </>
   );
 }
