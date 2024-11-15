@@ -5,8 +5,8 @@ const Database = require('./config/Database')
 const { readdirSync } = require("fs")
 const cors = require("cors");
 const bodyParser = require('body-parser');
-const { initializeFaceApi } = require('./utils/faceAuth');
-initializeFaceApi()
+// const { initializeFaceApi } = require('./utils/faceAuth');
+// initializeFaceApi()
 Database()
 app.use(cors({
     origin: true,

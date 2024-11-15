@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Camera, Check, X, Loader2 } from 'lucide-react';
 import AlertMessage from '../alert/AlertMessage';
+import FacePositionGuide from './FacePositionGuide';
+import { useNavigate } from 'react-router-dom';
 
 const FacialAuth = ({ handleBiometricAuth }) => {
   const [isCapturing, setIsCapturing] = useState(false);
@@ -8,15 +10,18 @@ const FacialAuth = ({ handleBiometricAuth }) => {
   const [isLoading, setIsLoading] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
-
+  const navigate = useNavigate("")
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      streamRef.current = stream;
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
+   
       setIsCapturing(true);
+      setTimeout(async() => {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        streamRef.current = stream;
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      },500)
     } catch (err) {
       console.error("Error accessing camera:", err);
       setAuthStatus('error');
@@ -42,6 +47,22 @@ const FacialAuth = ({ handleBiometricAuth }) => {
     setAuthStatus(isAuthenticated ? 'success' : 'failed');
     setIsLoading(false);
     stopCamera();
+    if(isAuthenticated){
+      const userData = {
+        _id: "6737d30c0785dca252fbb6f5",
+        email: "test@gmail.com",
+        faceDescriptor: [],
+        createdAt: "2024-11-15T23:02:36.302Z",
+        updatedAt: "2024-11-15T23:02:36.302Z",
+        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzM3ZDMwYzA3ODVkY2EyNTJmYmI2ZjUiLCJpYXQiOjE3MzE3MTE3NjYsImV4cCI6MTczMjMxNjU2Nn0.IljTpcAi-tUVDP1O8w4bJ2xZbUsZDfVHXBiXmHZEN1M",
+        __v: 0
+    };
+    
+    const userDataString = JSON.stringify(userData);
+    
+    localStorage.setItem('user', userDataString);
+    navigate("/dashboard")
+    }
   };
 
   const reset = () => {
@@ -61,12 +82,15 @@ const FacialAuth = ({ handleBiometricAuth }) => {
 
       <div className="relative aspect-video bg-gray-100 rounded-lg overflow-hidden">
         {isCapturing ? (
+         <>
           <video
             ref={videoRef}
             autoPlay
             playsInline
             className="w-full h-full object-cover"
           />
+          <FacePositionGuide/>
+         </>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
             <Camera className="w-12 h-12 text-gray-400" />
